@@ -1,0 +1,23 @@
+{
+  "name": "manchenkov/yii2-helpers",
+  "description": "Useful short helper functions to work with Yii components",
+  "version": "1.0.0",
+  "type": "yii2-extension",
+  "require": {
+    "yiisoft/yii2": "2.0.16"
+  },
+  "homepage": "https://github.com/manchenkoff/yii2-helpers",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Artyom Manchenkov",
+      "email": "artyom@manchenkoff.me"
+    }
+  ],
+  "minimum-stability": "stable",
+  "autoload": {
+    "files": [
+      "src/helpers.php"
+    ]
+  }
+}
