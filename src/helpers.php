@@ -178,14 +178,19 @@ function alias(string $alias, string $value = null)
 
 /**
  * Sets or returns value from cache
+ * Returns Yii::$app->cache if $key is empty
  *
  * @param string $key
  * @param mixed $value
  *
- * @return bool|mixed
+ * @return bool|mixed|\yii\caching\CacheInterface
  */
-function cache(string $key, $value = null)
+function cache(string $key = null, $value = null)
 {
+    if (is_null($key)) {
+        return app()->cache;
+    }
+
     if (!is_null($value)) {
         return app()->cache->set($key, $value);
     }
