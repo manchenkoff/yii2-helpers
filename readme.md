@@ -2,7 +2,22 @@
 
 Useful short helper functions to work with default Yii 2 components.
 
-Functions:
+## Installation
+
+You have to run following command to add dependency to your project
+
+```bash
+composer require manchenkov/yii2-helpers
+```
+
+or you can add this line to `require` section of `composer.json`
+
+```
+"manchenkov/yii2-helpers": "*"
+```
+
+## Functions
+
 - `app()`: returns `Yii::$app` object
 - `url()`: instead of `yii\helpers\Url::to()`
 - `user()`: returns `Yii::$app->user` object
