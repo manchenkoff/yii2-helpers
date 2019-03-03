@@ -16,6 +16,33 @@ or you can add this line to `require` section of `composer.json`
 "manchenkov/yii2-helpers": "*"
 ```
 
+## Usage
+
+After installation you may use it in existing code like this:
+
+```php
+public function actionIndex()
+{
+    if (user()->isGuest) {
+        return view('guests');
+    } else {
+        return view('main');
+    }
+}
+
+...
+
+public function actionAjaxGetData()
+{
+    if (request()->isAjax) {
+        $number = request()->get('number');
+        
+        ...
+    }
+}
+```
+
+
 ## Functions
 
 - `app()`: returns `Yii::$app` object
