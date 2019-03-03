@@ -12,9 +12,11 @@ use yii\helpers\Url;
  * Proxy for Yii::$app
  * @return \yii\console\Application|\yii\web\Application
  */
-function app()
-{
-    return Yii::$app;
+if (!function_exists('app')) {
+    function app()
+    {
+        return Yii::$app;
+    }
 }
 
 /**
@@ -25,36 +27,44 @@ function app()
  *
  * @return string
  */
-function url($url = '', bool $absolute = false)
-{
-    return Url::to($url, $absolute);
+if (!function_exists('url')) {
+    function url($url = '', bool $absolute = false)
+    {
+        return Url::to($url, $absolute);
+    }
 }
 
 /**
  * Proxy for app user object
  * @return mixed|\yii\web\User
  */
-function user()
-{
-    return app()->user;
+if (!function_exists('user')) {
+    function user()
+    {
+        return app()->user;
+    }
 }
 
 /**
  * Proxy for app request object
  * @return \yii\console\Request|\yii\web\Request
  */
-function request()
-{
-    return app()->request;
+if (!function_exists('request')) {
+    function request()
+    {
+        return app()->request;
+    }
 }
 
 /**
  * Proxy for app response object
  * @return \yii\console\Response|\yii\web\Response
  */
-function response()
-{
-    return app()->response;
+if (!function_exists('response')) {
+    function response()
+    {
+        return app()->response;
+    }
 }
 
 /**
@@ -63,9 +73,11 @@ function response()
  * @param string|array $message
  * @param string $category
  */
-function debug($message, $category = 'application')
-{
-    Yii::debug($message, $category);
+if (!function_exists('debug')) {
+    function debug($message, $category = 'application')
+    {
+        Yii::debug($message, $category);
+    }
 }
 
 /**
@@ -75,9 +87,11 @@ function debug($message, $category = 'application')
  *
  * @return string
  */
-function e(string $value)
-{
-    return Html::encode($value);
+if (!function_exists('e')) {
+    function e(string $value)
+    {
+        return Html::encode($value);
+    }
 }
 
 /**
@@ -89,9 +103,11 @@ function e(string $value)
  *
  * @return string
  */
-function t(string $category, string $message, array $params = [])
-{
-    return Yii::t($category, $message, $params);
+if (!function_exists('t')) {
+    function t(string $category, string $message, array $params = [])
+    {
+        return Yii::t($category, $message, $params);
+    }
 }
 
 /**
@@ -101,18 +117,22 @@ function t(string $category, string $message, array $params = [])
  *
  * @return bool|mixed
  */
-function config(string $key)
-{
-    return app()->params[$key] ?? false;
+if (!function_exists('config')) {
+    function config(string $key)
+    {
+        return app()->params[$key] ?? false;
+    }
 }
 
 /**
  * Proxy for app session object
  * @return mixed|\yii\web\Session
  */
-function session()
-{
-    return app()->session;
+if (!function_exists('session')) {
+    function session()
+    {
+        return app()->session;
+    }
 }
 
 /**
@@ -124,24 +144,26 @@ function session()
  *
  * @return mixed|\yii\web\CookieCollection
  */
-function cookies(string $name = null, string $value = null, int $expire = -1)
-{
-    if (!is_null($name)) {
-        if (is_null($value)) {
-            return request()->cookies[$name];
-        } else {
-            return response()->cookies->add(
-                new \yii\web\Cookie([
-                    'name' => $name,
-                    'value' => $value,
-                    'secure' => true,
-                    'expire' => ($expire == -1) ? strtotime('+1 month') : $expire,
-                ])
-            );
+if (!function_exists('cookies')) {
+    function cookies(string $name = null, string $value = null, int $expire = -1)
+    {
+        if (!is_null($name)) {
+            if (is_null($value)) {
+                return request()->cookies[$name];
+            } else {
+                return response()->cookies->add(
+                    new \yii\web\Cookie([
+                        'name' => $name,
+                        'value' => $value,
+                        'secure' => true,
+                        'expire' => ($expire == -1) ? strtotime('+1 month') : $expire,
+                    ])
+                );
+            }
         }
-    }
 
-    return request()->cookies;
+        return request()->cookies;
+    }
 }
 
 /**
@@ -152,9 +174,11 @@ function cookies(string $name = null, string $value = null, int $expire = -1)
  *
  * @return string
  */
-function view(string $view, array $params = [])
-{
-    return app()->controller->render($view, $params);
+if (!function_exists('view')) {
+    function view(string $view, array $params = [])
+    {
+        return app()->controller->render($view, $params);
+    }
 }
 
 /**
@@ -165,15 +189,17 @@ function view(string $view, array $params = [])
  *
  * @return bool|string
  */
-function alias(string $alias, string $value = null)
-{
-    if (is_null($value)) {
-        return Yii::getAlias($alias);
-    } else {
-        Yii::setAlias($alias, $value);
-    }
+if (!function_exists('alias')) {
+    function alias(string $alias, string $value = null)
+    {
+        if (is_null($value)) {
+            return Yii::getAlias($alias);
+        } else {
+            Yii::setAlias($alias, $value);
+        }
 
-    return true;
+        return true;
+    }
 }
 
 /**
@@ -185,15 +211,17 @@ function alias(string $alias, string $value = null)
  *
  * @return bool|mixed|\yii\caching\CacheInterface
  */
-function cache(string $key = null, $value = null)
-{
-    if (is_null($key)) {
-        return app()->cache;
-    }
+if (!function_exists('cache')) {
+    function cache(string $key = null, $value = null)
+    {
+        if (is_null($key)) {
+            return app()->cache;
+        }
 
-    if (!is_null($value)) {
-        return app()->cache->set($key, $value);
-    }
+        if (!is_null($value)) {
+            return app()->cache->set($key, $value);
+        }
 
-    return app()->cache->get($key);
+        return app()->cache->get($key);
+    }
 }
