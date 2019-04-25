@@ -118,9 +118,15 @@ if (!function_exists('t')) {
  * @return bool|mixed
  */
 if (!function_exists('config')) {
-    function config(string $key)
+    function config(string $key, $value = null)
     {
-        return app()->params[$key] ?? false;
+        if (is_null($value)) {
+            return app()->params[$key] ?? false;
+        } else {
+            app()->params[$key] = $value;
+
+            return true;
+        }
     }
 }
 
