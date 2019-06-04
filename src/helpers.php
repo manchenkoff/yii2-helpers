@@ -46,6 +46,17 @@ if (!function_exists('user')) {
 }
 
 /**
+ * Proxy for RBAC manager object
+ * @return mixed|\yii\web\User
+ */
+if (!function_exists('auth')) {
+    function auth()
+    {
+        return app()->authManager;
+    }
+}
+
+/**
  * Proxy for app request object
  * @return \yii\console\Request|\yii\web\Request
  */
