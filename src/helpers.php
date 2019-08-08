@@ -122,6 +122,17 @@ if (!function_exists('t')) {
 }
 
 /**
+ * Proxy for Yii::$app->formatter
+ * @return \yii\i18n\Formatter
+ */
+if (!function_exists('formatter')) {
+    function formatter()
+    {
+        return Yii::$app->formatter;
+    }
+}
+
+/**
  * Returns app config value by $key of false
  *
  * @param string $key

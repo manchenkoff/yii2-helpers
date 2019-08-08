@@ -54,6 +54,7 @@ public function actionAjaxGetData()
 | `debug()`     | instead of `Yii::debug()` |
 | `e()`         | instead of `yii\helpers\Html::encode()` |
 | `t()`         | instead of `Yii::t()` |
+| `formatter()` | instead of `Yii::$app->formatter` |
 | `config()`    | returns some parameter from `Yii::$app->params` by key |
 | `session()`   | returns `Yii::$app->session` object |
 | `cookies()`   | returns a cookie from request or set new value to response |
