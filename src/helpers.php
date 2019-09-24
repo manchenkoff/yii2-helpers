@@ -37,11 +37,14 @@ if (!function_exists('invoke')) {
      * @param array $params
      *
      * @return object
-     * @throws InvalidConfigException
      */
     function invoke(string $class, array $params = [])
     {
-        return Yii::createObject($class, $params);
+        try {
+            return Yii::createObject($class, $params);
+        } catch (InvalidConfigException $exception) {
+            return null;
+        }
     }
 }
 
