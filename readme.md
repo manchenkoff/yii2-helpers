@@ -47,6 +47,7 @@ public function actionAjaxGetData()
 | Function      | Description |
 | ------------- | ----------- |
 | `app()`       | returns `Yii::$app` object |
+| `invoke()`    | returns related object from DI container by the passed interface name |
 | `url()`       | instead of `yii\helpers\Url::to()` |
 | `user()`      | returns `Yii::$app->user` object |
 | `request()`   | returns `Yii::$app->request` object |
