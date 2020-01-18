@@ -3,7 +3,7 @@
   "description": "Useful short helper functions to work with Yii components",
   "type": "yii2-extension",
   "require": {
-    "yiisoft/yii2": ">=2.0.0"
+    "yiisoft/yii2": ">=2.0"
   },
   "homepage": "https://github.com/manchenkoff/yii2-helpers",
   "license": "MIT",
