@@ -5,6 +5,8 @@
  * manchenkoff.me © 2019
  */
 
+declare(strict_types=1);
+
 use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\helpers\Html;
@@ -38,7 +40,7 @@ if (!function_exists('invoke')) {
      *
      * @return object
      */
-    function invoke(string $class, array $params = [])
+    function invoke(string $class, array $params = []): ?object
     {
         try {
             return Yii::createObject($class, $params);
@@ -57,7 +59,7 @@ if (!function_exists('url')) {
      *
      * @return string
      */
-    function url($url = '', bool $absolute = false)
+    function url($url = '', bool $absolute = false): string
     {
         return Url::to($url, $absolute);
     }
@@ -68,7 +70,7 @@ if (!function_exists('user')) {
      * Proxy for app user object
      * @return mixed|User
      */
-    function user()
+    function user(): User
     {
         return app()->user;
     }
@@ -79,7 +81,7 @@ if (!function_exists('auth')) {
      * Proxy for RBAC manager object
      * @return mixed|User
      */
-    function auth()
+    function auth(): User
     {
         return app()->authManager;
     }
@@ -128,7 +130,7 @@ if (!function_exists('e')) {
      *
      * @return string
      */
-    function e(string $value)
+    function e(string $value): string
     {
         return Html::encode($value);
     }
@@ -144,7 +146,7 @@ if (!function_exists('t')) {
      *
      * @return string
      */
-    function t(string $category, string $message, array $params = [])
+    function t(string $category, string $message, array $params = []): string
     {
         return Yii::t($category, $message, $params);
     }
@@ -155,7 +157,7 @@ if (!function_exists('formatter')) {
      * Proxy for Yii::$app->formatter
      * @return Formatter
      */
-    function formatter()
+    function formatter(): Formatter
     {
         return Yii::$app->formatter;
     }
@@ -166,10 +168,11 @@ if (!function_exists('config')) {
      * Returns app config value by $key of false
      *
      * @param string $key
+     * @param mixed|null $value
      *
      * @return bool|mixed
      */
-    function config(string $key, $value = null)
+    function config(string $key, $value = null): bool
     {
         if (is_null($value)) {
             return app()->params[$key] ?? false;
@@ -186,7 +189,7 @@ if (!function_exists('session')) {
      * Proxy for app session object
      * @return mixed|Session
      */
-    function session()
+    function session(): Session
     {
         return app()->session;
     }
@@ -202,19 +205,21 @@ if (!function_exists('cookies')) {
      *
      * @return mixed|CookieCollection
      */
-    function cookies(string $name = null, string $value = null, int $expire = -1)
+    function cookies(string $name = null, string $value = null, int $expire = -1): CookieCollection
     {
         if (!is_null($name)) {
             if (is_null($value)) {
                 return request()->cookies[$name];
             } else {
                 return response()->cookies->add(
-                    new Cookie([
-                        'name' => $name,
-                        'value' => $value,
-                        'secure' => true,
-                        'expire' => ($expire == -1) ? strtotime('+1 month') : $expire,
-                    ])
+                    new Cookie(
+                        [
+                            'name' => $name,
+                            'value' => $value,
+                            'secure' => true,
+                            'expire' => ($expire == -1) ? strtotime('+1 month') : $expire,
+                        ]
+                    )
                 );
             }
         }
@@ -232,7 +237,7 @@ if (!function_exists('view')) {
      *
      * @return string
      */
-    function view(string $view, array $params = [])
+    function view(string $view, array $params = []): string
     {
         return app()->controller->render($view, $params);
     }
@@ -243,7 +248,7 @@ if (!function_exists('alias')) {
      * Proxy for get or set Yii alias
      *
      * @param string $alias
-     * @param string $value
+     * @param string|null $value
      *
      * @return bool|string
      */
@@ -264,7 +269,7 @@ if (!function_exists('cache')) {
      * Sets or returns value from cache
      * Returns Yii::$app->cache if $key is empty
      *
-     * @param string $key
+     * @param string|null $key
      * @param mixed $value
      *
      * @return bool|mixed|CacheInterface

@@ -67,16 +67,16 @@
         },
         {
             "name": "bower-asset/jquery",
-            "version": "3.3.1",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jquery/jquery-dist.git",
-                "reference": "9e8ec3d10fad04748176144f108d7355662ae75e"
+                "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/9e8ec3d10fad04748176144f108d7355662ae75e",
-                "reference": "9e8ec3d10fad04748176144f108d7355662ae75e",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/4c0e4becb8263bb5b3e6dadc448d8e7305ef8215",
+                "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215",
                 "shasum": ""
             },
             "type": "bower-asset-library",
@@ -94,7 +94,8 @@
                 "javascript",
                 "jquery",
                 "library"
-            ]
+            ],
+            "time": "2020-05-04T22:50:46+00:00"
         },
         {
             "name": "bower-asset/punycode",
@@ -366,20 +367,6 @@
                 "framework",
                 "yii2"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/yiisoft",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/yiisoft",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/yiisoft/yii2",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-09-14T21:52:10+00:00"
         },
         {
@@ -435,20 +422,6 @@
                 "extension installer",
                 "yii2"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/yiisoft",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/yiisoft",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/yiisoft/yii2-composer",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-06-24T00:04:01+00:00"
         }
     ],
@@ -459,6 +432,5 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }
