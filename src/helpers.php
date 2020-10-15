@@ -170,9 +170,9 @@ if (!function_exists('config')) {
      * @param string $key
      * @param mixed|null $value
      *
-     * @return bool|mixed
+     * @return bool|string|mixed
      */
-    function config(string $key, $value = null): bool
+    function config(string $key, $value = null)
     {
         if (is_null($value)) {
             return app()->params[$key] ?? false;
