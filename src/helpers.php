@@ -7,46 +7,27 @@
 
 declare(strict_types=1);
 
-use yii\base\InvalidConfigException;
-use yii\caching\CacheInterface;
+use yii\console\Application as ConsoleApplication;
+use yii\console\Request as ConsoleRequest;
+use yii\console\Response as ConsoleResponse;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\i18n\Formatter;
-use yii\web\Application;
+use yii\web\Application as HttpApplication;
 use yii\web\Cookie;
 use yii\web\CookieCollection;
-use yii\web\Request;
-use yii\web\Response;
-use yii\web\Session;
+use yii\web\Request as HttpRequest;
+use yii\web\Response as HttpResponse;
 use yii\web\User;
 
 if (!function_exists('app')) {
     /**
      * Proxy for Yii::$app
-     * @return \yii\console\Application|Application
+     * @return ConsoleApplication|HttpApplication
      */
     function app()
     {
         return Yii::$app;
-    }
-}
-
-if (!function_exists('invoke')) {
-    /**
-     * Returns related object from DI container by the passed interface name
-     *
-     * @param string $class
-     * @param array $params
-     *
-     * @return object
-     */
-    function invoke(string $class, array $params = []): ?object
-    {
-        try {
-            return Yii::createObject($class, $params);
-        } catch (InvalidConfigException $exception) {
-            return null;
-        }
     }
 }
 
@@ -65,17 +46,6 @@ if (!function_exists('url')) {
     }
 }
 
-if (!function_exists('user')) {
-    /**
-     * Proxy for app user object
-     * @return mixed|User
-     */
-    function user(): User
-    {
-        return app()->user;
-    }
-}
-
 if (!function_exists('auth')) {
     /**
      * Proxy for RBAC manager object
@@ -90,7 +60,7 @@ if (!function_exists('auth')) {
 if (!function_exists('request')) {
     /**
      * Proxy for app request object
-     * @return \yii\console\Request|Request
+     * @return ConsoleRequest|HttpRequest
      */
     function request()
     {
@@ -101,7 +71,7 @@ if (!function_exists('request')) {
 if (!function_exists('response')) {
     /**
      * Proxy for app response object
-     * @return \yii\console\Response|Response
+     * @return ConsoleResponse|HttpResponse
      */
     function response()
     {
@@ -174,24 +144,13 @@ if (!function_exists('config')) {
      */
     function config(string $key, $value = null)
     {
-        if (is_null($value)) {
-            return app()->params[$key] ?? false;
-        } else {
-            app()->params[$key] = $value;
-
-            return true;
+        if ($value === null) {
+            return app()->params[$key] ?? null;
         }
-    }
-}
 
-if (!function_exists('session')) {
-    /**
-     * Proxy for app session object
-     * @return mixed|Session
-     */
-    function session(): Session
-    {
-        return app()->session;
+        app()->params[$key] = $value;
+
+        return $value;
     }
 }
 
@@ -203,28 +162,30 @@ if (!function_exists('cookies')) {
      * @param string|null $value
      * @param int $expire
      *
-     * @return mixed|CookieCollection
+     * @return CookieCollection|?Cookie
      */
-    function cookies(string $name = null, string $value = null, int $expire = -1): CookieCollection
+    function cookies(string $name = null, string $value = null, int $expire = -1)
     {
-        if (!is_null($name)) {
-            if (is_null($value)) {
-                return request()->cookies[$name];
-            } else {
-                return response()->cookies->add(
-                    new Cookie(
-                        [
-                            'name' => $name,
-                            'value' => $value,
-                            'secure' => true,
-                            'expire' => ($expire == -1) ? strtotime('+1 month') : $expire,
-                        ]
-                    )
-                );
-            }
+        if ($name === null) {
+            return request()->cookies;
         }
 
-        return request()->cookies;
+        if ($value === null) {
+            return request()->cookies->get($name);
+        }
+
+        $newCookieToResponse = new Cookie(
+            [
+                'name' => $name,
+                'value' => $value,
+                'secure' => true,
+                'expire' => $expire === -1 ? strtotime('+1 month') : $expire,
+            ]
+        );
+
+        response()->cookies->add($newCookieToResponse);
+
+        return $newCookieToResponse;
     }
 }
 
@@ -233,57 +194,33 @@ if (!function_exists('view')) {
      * Proxy for app controller 'render' method
      *
      * @param string $view
-     * @param array $params
+     * @param array $context
      *
      * @return string
      */
-    function view(string $view, array $params = []): string
+    function view(string $view, array $context = []): string
     {
-        return app()->controller->render($view, $params);
+        return app()->controller->render($view, $context);
     }
 }
 
 if (!function_exists('alias')) {
     /**
-     * Proxy for get or set Yii alias
+     * Proxy for get or set Yii alias (set if $value is not null)
      *
      * @param string $alias
      * @param string|null $value
      *
-     * @return bool|string
+     * @return null|string
      */
-    function alias(string $alias, string $value = null)
+    function alias(string $alias, string $value = null): ?string
     {
-        if (is_null($value)) {
-            return Yii::getAlias($alias);
-        } else {
-            Yii::setAlias($alias, $value);
+        if ($value === null) {
+            return Yii::getAlias($alias) ?: null;
         }
 
-        return true;
-    }
-}
+        Yii::setAlias($alias, $value);
 
-if (!function_exists('cache')) {
-    /**
-     * Sets or returns value from cache
-     * Returns Yii::$app->cache if $key is empty
-     *
-     * @param string|null $key
-     * @param mixed $value
-     *
-     * @return bool|mixed|CacheInterface
-     */
-    function cache(string $key = null, $value = null)
-    {
-        if (is_null($key)) {
-            return app()->cache;
-        }
-
-        if (!is_null($value)) {
-            return app()->cache->set($key, $value);
-        }
-
-        return app()->cache->get($key);
+        return $value;
     }
 }
